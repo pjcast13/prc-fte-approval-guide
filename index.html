@@ -8,7 +8,7 @@
       name="description"
       content="Interactive decision path for tracking PRC FTE requisitions."
     />
-    <link rel="stylesheet" href="styles.css?v=20260615-11" />
+    <link rel="stylesheet" href="styles.css?v=20260615-12" />
   </head>
   <body>
     <main class="app-shell">
@@ -28,7 +28,7 @@
       </section>
 
       <section class="page-summary" aria-label="How to use this page">
-        <p>This guide helps a manager figure out where an FTE request is in the approval process. It does not look up a requisition number automatically. Use what you know about the request and answer the Path Builder questions. The Current Request panel will show where the request is now, who has the next move, what the manager should do next, and what confirmation to look for before moving on.</p>
+        <p>This guide helps a manager figure out where an FTE request is in the approval process. It does not look up a requisition number automatically. Use what you know about the request and answer the Path Builder questions. Approval Process Steps will highlight where the request is in the full process. Current Request will show who has the next move, what the manager should do next, and what confirmation to look for before moving on.</p>
       </section>
 
       <section class="phase-map" aria-label="Process overview">
@@ -47,17 +47,10 @@
             <h2>Path Builder</h2>
           </div>
           <div class="panel-help">
-            Start at the top. Pick one answer in each card that appears. Each answer adds the next card and narrows the path.
+            Start at the top. Pick one answer in each card that appears. Each answer highlights the request in Approval Process Steps and updates Current Request.
           </div>
           <div id="decisionStack" class="decision-stack"></div>
         </aside>
-
-        <section class="path-panel" aria-label="Filtered process path">
-          <div class="panel-heading">
-            <h2>Path So Far</h2>
-          </div>
-          <div id="pathList" class="path-list"></div>
-        </section>
 
         <aside class="tracker-panel" aria-label="Current request summary">
           <div class="panel-heading">
@@ -92,6 +85,6 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260615-11"></script>
+    <script src="app.js?v=20260615-12"></script>
   </body>
 </html>

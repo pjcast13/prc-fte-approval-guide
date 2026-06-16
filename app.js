@@ -316,6 +316,11 @@ function renderPhaseMap(currentStatus, path) {
   phases.forEach((phase, index) => {
     const isActive = started && index === currentIndex;
     const isDone = started && index < currentIndex && phase.ids.some((id) => pathStatusIds.has(id));
+    const phaseMarker = isActive
+      ? `<p class="phase-request"><strong>You are here:</strong> ${cleanStatusLabel(currentStatus)}</p>`
+      : isDone
+        ? `<p class="phase-request done"><strong>Already cleared</strong></p>`
+        : "";
     const phaseItem = document.createElement("article");
     phaseItem.className = `phase-item ${isActive ? "active" : ""} ${isDone ? "done" : ""}`;
     phaseItem.innerHTML = `
@@ -325,6 +330,7 @@ function renderPhaseMap(currentStatus, path) {
       </div>
       <p class="phase-description">${phase.description}</p>
       <p class="phase-substeps"><strong>Watch for:</strong> ${phase.substeps.map((substep) => substep.label).join(", ")}</p>
+      ${phaseMarker}
     `;
 
     map.appendChild(phaseItem);
@@ -355,36 +361,6 @@ function renderDecisions() {
       grid.appendChild(button);
     });
     stack.appendChild(card);
-  });
-}
-
-function renderPath(path, currentStatus) {
-  const list = document.getElementById("pathList");
-  list.innerHTML = "";
-
-  if (!hasStarted()) {
-    return;
-  }
-
-  path.forEach((node, index) => {
-    const status = statusById(node.statusId);
-    const item = document.createElement("article");
-    const isCurrent = !state.statusOverride && status.id === currentStatus.id && index === path.findLastIndex((pathNode) => pathNode.statusId === node.statusId);
-    item.className = `path-node ${isCurrent ? "current" : ""} ${node.terminal ? `terminal ${node.terminal}` : ""}`;
-    item.innerHTML = `
-      <div class="node-index">${index + 1}</div>
-      <div>
-        <div class="node-kicker">${isCurrent ? "You are here" : node.terminal ? "End state" : "Earlier step"}</div>
-        <div class="node-title">${node.title}</div>
-        <div class="node-meta">
-          <span class="tag">${cleanStatusLabel(status)}</span>
-          <span class="tag">${node.owner}</span>
-          <span class="tag">${node.cadence}</span>
-        </div>
-        <p class="node-text"><strong>Action:</strong> ${node.detail}</p>
-      </div>
-    `;
-    list.appendChild(item);
   });
 }
 
@@ -427,7 +403,6 @@ function render() {
   const { status, node } = getCurrentNode(path);
   renderPhaseMap(status, path);
   renderDecisions();
-  renderPath(path, status);
   renderTracker(status, node, path);
   renderStatusLibrary(status);
 }
