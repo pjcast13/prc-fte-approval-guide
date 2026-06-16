@@ -123,8 +123,8 @@ const decisionConfig = [
   },
   {
     id: "fteSubmitted",
-    title: "Has the internal FTE request been submitted?",
-    note: "Fixed positions go through the fixed-position request path. Flex positions go to the portfolio-level FTE review path.",
+    title: "Has the internal FTE request been submitted into the FTE SmartSheet?",
+    note: "If it is not in the FTE SmartSheet yet, submit it there first. Fixed positions then go through the fixed-position request path. Flex positions go to the portfolio-level FTE review path.",
     options: [
       { value: "no", label: "No" },
       { value: "yes", label: "Yes" },
