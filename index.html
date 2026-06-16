@@ -8,7 +8,7 @@
       name="description"
       content="Interactive decision path for tracking PRC FTE requisitions."
     />
-    <link rel="stylesheet" href="styles.css?v=20260615-10" />
+    <link rel="stylesheet" href="styles.css?v=20260615-11" />
   </head>
   <body>
     <main class="app-shell">
@@ -28,13 +28,7 @@
       </section>
 
       <section class="page-summary" aria-label="How to use this page">
-        <p>This page shows where an FTE request is in the approval process and what the manager should do next.</p>
-        <ol>
-          <li><strong>Approval Process Steps</strong> shows the full process from Internal FTE Committee through PRC and any appeal.</li>
-          <li><strong>Path Builder</strong> asks a few questions to find where this specific request is.</li>
-          <li><strong>Path So Far</strong> shows the route this request has taken and highlights the current point.</li>
-          <li><strong>Current Request</strong> gives the direct manager update: where it is, who has it, what to do, and what confirms it moved.</li>
-        </ol>
+        <p>This guide helps a manager figure out where an FTE request is in the approval process. It does not look up a requisition number automatically. Use what you know about the request and answer the Path Builder questions. The Current Request panel will show where the request is now, who has the next move, what the manager should do next, and what confirmation to look for before moving on.</p>
       </section>
 
       <section class="phase-map" aria-label="Process overview">
@@ -51,7 +45,6 @@
         <aside class="decision-panel" aria-label="Decision controls">
           <div class="panel-heading">
             <h2>Path Builder</h2>
-            <span id="stepCount">Question 1</span>
           </div>
           <div class="panel-help">
             Start at the top. Pick one answer in each card that appears. Each answer adds the next card and narrows the path.
@@ -62,7 +55,6 @@
         <section class="path-panel" aria-label="Filtered process path">
           <div class="panel-heading">
             <h2>Path So Far</h2>
-            <span id="pathMode">Choose a path</span>
           </div>
           <div id="pathList" class="path-list"></div>
         </section>
@@ -70,7 +62,6 @@
         <aside class="tracker-panel" aria-label="Current request summary">
           <div class="panel-heading">
             <h2>Current Request</h2>
-            <span id="stagePill">Not started</span>
           </div>
           <dl class="tracker-fields">
             <div>
@@ -101,6 +92,6 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260615-10"></script>
+    <script src="app.js?v=20260615-11"></script>
   </body>
 </html>

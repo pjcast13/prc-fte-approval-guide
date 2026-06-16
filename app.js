@@ -23,6 +23,7 @@ const statuses = [
 const phases = [
   {
     title: "Internal FTE Committee",
+    description: "Submit the internal FTE request. Fixed requests go through the Friday pull and Monday DR review. Flex requests go to portfolio-level FTE review.",
     ids: ["01", "02", "03", "04", "05"],
     substeps: [
       { label: "Choose lane", ids: ["01"] },
@@ -32,6 +33,7 @@ const phases = [
   },
   {
     title: "Workday or Beeline",
+    description: "After internal FTE approval, create the requisition and clear the hiring manager and leader approvals.",
     ids: ["06", "07"],
     substeps: [
       { label: "Create req", ids: ["06"] },
@@ -40,6 +42,7 @@ const phases = [
   },
   {
     title: "PRC",
+    description: "Business Ops exports approved reqs Friday. PRC reviews Monday and sends approve, RFI, or deny decisions.",
     ids: ["08", "09", "10", "11"],
     substeps: [
       { label: "Exported for PRC", ids: ["08"] },
@@ -48,6 +51,7 @@ const phases = [
   },
   {
     title: "Appeal, if denied",
+    description: "If PRC denies the request, leadership decides whether to appeal at PRG, and then PRE if PRG denies.",
     ids: ["12", "13", "14", "15", "16", "17"],
     substeps: [
       { label: "PRG", ids: ["12", "13", "14", "15"] },
@@ -56,6 +60,7 @@ const phases = [
   },
   {
     title: "Outcome",
+    description: "Approved requests are released for HR follow-through. Denied or withdrawn requests close.",
     ids: ["10", "14", "17", "18", "19"],
     substeps: [
       { label: "Released to HR", ids: ["10", "14", "17", "19"] },
@@ -318,16 +323,9 @@ function renderPhaseMap(currentStatus, path) {
         <span class="phase-number">${index + 1}</span>
         <strong>${phase.title}</strong>
       </div>
-      <div class="phase-substeps"></div>
+      <p class="phase-description">${phase.description}</p>
+      <p class="phase-substeps"><strong>Watch for:</strong> ${phase.substeps.map((substep) => substep.label).join(", ")}</p>
     `;
-
-    const substepList = phaseItem.querySelector(".phase-substeps");
-    phase.substeps.forEach((substep) => {
-      const substepItem = document.createElement("span");
-      substepItem.className = `phase-substep ${started && substep.ids.includes(currentStatus.id) ? "active" : ""}`;
-      substepItem.textContent = substep.label;
-      substepList.appendChild(substepItem);
-    });
 
     map.appendChild(phaseItem);
   });
@@ -337,8 +335,6 @@ function renderDecisions() {
   const stack = document.getElementById("decisionStack");
   stack.innerHTML = "";
   const visible = decisionConfig.filter((item) => item.visible());
-  const answered = visible.filter((item) => Boolean(state[item.id])).length;
-  document.getElementById("stepCount").textContent = `Question ${Math.min(answered + 1, decisionConfig.length)}`;
 
   visible.forEach((decision) => {
     const card = document.createElement("section");
@@ -365,7 +361,6 @@ function renderDecisions() {
 function renderPath(path, currentStatus) {
   const list = document.getElementById("pathList");
   list.innerHTML = "";
-  document.getElementById("pathMode").textContent = state.type ? `${state.type[0].toUpperCase()}${state.type.slice(1)} path` : "Choose a path";
 
   if (!hasStarted()) {
     return;
@@ -396,7 +391,6 @@ function renderPath(path, currentStatus) {
 function renderTracker(status, node, path) {
   if (!hasStarted()) {
     document.body.dataset.status = "not-started";
-    document.getElementById("stagePill").textContent = "Not started";
     document.getElementById("trackerStatus").textContent = "No path selected yet";
     document.getElementById("trackerOwner").textContent = "Not assigned yet";
     document.getElementById("trackerAction").textContent = "Choose a position type in Path Builder.";
@@ -406,7 +400,6 @@ function renderTracker(status, node, path) {
 
   const statusLabel = cleanStatusLabel(status);
   document.body.dataset.status = status.id;
-  document.getElementById("stagePill").textContent = status.stage;
   document.getElementById("trackerStatus").textContent = statusLabel;
   document.getElementById("trackerOwner").textContent = status.owner;
   document.getElementById("trackerAction").textContent = status.action;
