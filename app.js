@@ -401,7 +401,6 @@ function renderTracker(status, node, path) {
     document.getElementById("trackerOwner").textContent = "Not assigned yet";
     document.getElementById("trackerAction").textContent = "Choose a position type in Path Builder.";
     document.getElementById("trackerEvidence").textContent = "None yet.";
-    document.querySelector("#currentActionCard strong").textContent = "Choose a position type to begin.";
     return;
   }
 
@@ -412,7 +411,6 @@ function renderTracker(status, node, path) {
   document.getElementById("trackerOwner").textContent = status.owner;
   document.getElementById("trackerAction").textContent = status.action;
   document.getElementById("trackerEvidence").textContent = status.evidence;
-  document.querySelector("#currentActionCard strong").textContent = status.action;
 }
 
 function renderStatusLibrary(currentStatus) {

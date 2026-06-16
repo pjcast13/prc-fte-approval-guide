@@ -8,7 +8,7 @@
       name="description"
       content="Interactive decision path for tracking PRC FTE requisitions."
     />
-    <link rel="stylesheet" href="styles.css?v=20260615-9" />
+    <link rel="stylesheet" href="styles.css?v=20260615-10" />
   </head>
   <body>
     <main class="app-shell">
@@ -25,6 +25,16 @@
             <span aria-hidden="true">⧉</span>
           </button>
         </div>
+      </section>
+
+      <section class="page-summary" aria-label="How to use this page">
+        <p>This page shows where an FTE request is in the approval process and what the manager should do next.</p>
+        <ol>
+          <li><strong>Approval Process Steps</strong> shows the full process from Internal FTE Committee through PRC and any appeal.</li>
+          <li><strong>Path Builder</strong> asks a few questions to find where this specific request is.</li>
+          <li><strong>Path So Far</strong> shows the route this request has taken and highlights the current point.</li>
+          <li><strong>Current Request</strong> gives the direct manager update: where it is, who has it, what to do, and what confirms it moved.</li>
+        </ol>
       </section>
 
       <section class="phase-map" aria-label="Process overview">
@@ -51,12 +61,8 @@
 
         <section class="path-panel" aria-label="Filtered process path">
           <div class="panel-heading">
-            <h2>What Happens Next</h2>
+            <h2>Path So Far</h2>
             <span id="pathMode">Choose a path</span>
-          </div>
-          <div class="current-action" id="currentActionCard">
-            <span>Current next action</span>
-            <strong>Choose whether the position is fixed or flexed.</strong>
           </div>
           <div id="pathList" class="path-list"></div>
         </section>
@@ -95,6 +101,6 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260615-9"></script>
+    <script src="app.js?v=20260615-10"></script>
   </body>
 </html>
