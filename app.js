@@ -402,10 +402,7 @@ function renderPath(path, currentStatus) {
 
 function renderTracker(status, node, path) {
   if (!hasStarted()) {
-    document.getElementById("currentStatus").textContent = "Not started";
     document.body.dataset.status = "not-started";
-    document.getElementById("waitingOn").textContent = "Not assigned yet";
-    document.getElementById("nextGate").textContent = "Choose a path below";
     document.getElementById("stagePill").textContent = "Not started";
     document.getElementById("trackerStatus").textContent = "No path selected yet";
     document.getElementById("trackerOwner").textContent = "Not assigned yet";
@@ -417,10 +414,7 @@ function renderTracker(status, node, path) {
 
   const milestone = currentMilestoneText(path, status);
   const statusLabel = cleanStatusLabel(status);
-  document.getElementById("currentStatus").textContent = milestone ? `${statusLabel} (${milestone.toLowerCase()})` : statusLabel;
   document.body.dataset.status = status.id;
-  document.getElementById("waitingOn").textContent = status.owner;
-  document.getElementById("nextGate").textContent = node ? node.title : status.action;
   document.getElementById("stagePill").textContent = status.stage;
   document.getElementById("trackerStatus").textContent = milestone ? `${statusLabel} (${milestone.toLowerCase()})` : statusLabel;
   document.getElementById("trackerOwner").textContent = status.owner;
