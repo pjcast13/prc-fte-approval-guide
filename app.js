@@ -329,7 +329,7 @@ function renderPhaseMap(currentStatus, path) {
         <strong>${phase.title}</strong>
       </div>
       <p class="phase-description">${phase.description}</p>
-      <p class="phase-substeps"><strong>Watch for:</strong> ${phase.substeps.map((substep) => substep.label).join(", ")}</p>
+      <p class="phase-substeps"><strong>Includes:</strong> ${phase.substeps.map((substep) => substep.label).join(", ")}</p>
       ${phaseMarker}
     `;
 
@@ -341,10 +341,18 @@ function renderDecisions() {
   const stack = document.getElementById("decisionStack");
   stack.innerHTML = "";
   const visible = decisionConfig.filter((item) => item.visible());
+  const activeDecision = visible.find((item) => !state[item.id]);
+  const answeredDecisions = visible
+    .filter((item) => state[item.id])
+    .reverse();
+  const orderedDecisions = activeDecision
+    ? [activeDecision, ...answeredDecisions]
+    : answeredDecisions;
 
-  visible.forEach((decision) => {
+  orderedDecisions.forEach((decision) => {
+    const isAnswered = Boolean(state[decision.id]);
     const card = document.createElement("section");
-    card.className = `decision-card ${state[decision.id] ? "" : "active"}`;
+    card.className = `decision-card ${isAnswered ? "answered" : "active"}`;
     card.innerHTML = `
       <div class="decision-title">${decision.title}</div>
       <div class="decision-note">${decision.note}</div>

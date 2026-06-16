@@ -313,6 +313,15 @@ h3 {
   box-shadow: 0 0 0 3px rgba(140, 21, 21, 0.08);
 }
 
+.decision-card.answered {
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.decision-card.answered .decision-title,
+.decision-card.answered .decision-note {
+  color: var(--muted);
+}
+
 .decision-title {
   padding: 12px 12px 0;
   font-weight: 850;
