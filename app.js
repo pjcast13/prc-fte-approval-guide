@@ -227,12 +227,6 @@ function cleanStatusLabel(status) {
   return status.label.replace(/^\d+\s+/, "");
 }
 
-function currentMilestoneText(path, currentStatus) {
-  const index = path.findLastIndex((node) => node.statusId === currentStatus.id);
-  if (index < 0) return "";
-  return `Milestone ${index + 1} of ${path.length}`;
-}
-
 function resetAfter(id) {
   const index = dependencyOrder.indexOf(id);
   dependencyOrder.slice(index + 1).forEach((key) => {
@@ -389,7 +383,6 @@ function renderPath(path, currentStatus) {
         <div class="node-title">${node.title}</div>
         <div class="node-meta">
           <span class="tag">${cleanStatusLabel(status)}</span>
-          <span class="tag">Milestone ${index + 1} of ${path.length}</span>
           <span class="tag">${node.owner}</span>
           <span class="tag">${node.cadence}</span>
         </div>
@@ -412,11 +405,10 @@ function renderTracker(status, node, path) {
     return;
   }
 
-  const milestone = currentMilestoneText(path, status);
   const statusLabel = cleanStatusLabel(status);
   document.body.dataset.status = status.id;
   document.getElementById("stagePill").textContent = status.stage;
-  document.getElementById("trackerStatus").textContent = milestone ? `${statusLabel} (${milestone.toLowerCase()})` : statusLabel;
+  document.getElementById("trackerStatus").textContent = statusLabel;
   document.getElementById("trackerOwner").textContent = status.owner;
   document.getElementById("trackerAction").textContent = status.action;
   document.getElementById("trackerEvidence").textContent = status.evidence;
