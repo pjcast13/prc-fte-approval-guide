@@ -160,6 +160,8 @@ h3 {
 }
 
 .phase-item {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -231,7 +233,7 @@ h3 {
 }
 
 .phase-request {
-  margin-top: 11px;
+  margin-top: auto;
   border: 1px solid rgba(15, 118, 110, 0.24);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.74);
@@ -244,6 +246,10 @@ h3 {
 .phase-request.done {
   border-color: rgba(47, 111, 62, 0.22);
   color: var(--green);
+}
+
+.phase-substeps + .phase-request {
+  margin-top: auto;
 }
 
 .phase-request strong {
@@ -314,12 +320,26 @@ h3 {
 }
 
 .decision-card.answered {
-  background: rgba(255, 255, 255, 0.68);
+  border-color: #d6d0c8;
+  background: #ece8df;
+  box-shadow: none;
 }
 
 .decision-card.answered .decision-title,
 .decision-card.answered .decision-note {
   color: var(--muted);
+}
+
+.decision-card.answered .choice-button {
+  border-color: #d8d2ca;
+  background: #f6f3ee;
+  color: var(--muted);
+}
+
+.decision-card.answered .choice-button.selected {
+  border-color: #b9b0a5;
+  background: #ddd8cf;
+  color: var(--ink);
 }
 
 .decision-title {
