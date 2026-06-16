@@ -8,7 +8,7 @@
       name="description"
       content="Interactive decision path for tracking PRC FTE requisitions."
     />
-    <link rel="stylesheet" href="styles.css?v=20260615-4" />
+    <link rel="stylesheet" href="styles.css?v=20260615-5" />
   </head>
   <body>
     <main class="app-shell">
@@ -30,15 +30,15 @@
       <section class="status-strip" aria-label="Current path summary">
         <div>
           <span class="strip-label">Tracker status</span>
-          <strong id="currentStatus">Start by choosing a position type</strong>
+          <strong id="currentStatus">Not started</strong>
         </div>
         <div>
           <span class="strip-label">Who has it</span>
-          <strong id="waitingOn">Classification</strong>
+          <strong id="waitingOn">Not assigned yet</strong>
         </div>
         <div>
           <span class="strip-label">Next move</span>
-          <strong id="nextGate">Fixed or flexed?</strong>
+          <strong id="nextGate">Choose a path below</strong>
         </div>
       </section>
 
@@ -77,24 +77,24 @@
         <aside class="tracker-panel" aria-label="Tracker fields">
           <div class="panel-heading">
             <h2>Tracker</h2>
-            <span id="stagePill">Intake</span>
+            <span id="stagePill">Not started</span>
           </div>
           <dl class="tracker-fields">
             <div>
               <dt>Put this in Status</dt>
-              <dd id="trackerStatus">01 Intake: classify fixed or flex</dd>
+              <dd id="trackerStatus">No path selected yet</dd>
             </div>
             <div>
               <dt>Put this in Waiting On</dt>
-              <dd id="trackerOwner">Hiring manager plus Business Ops</dd>
+              <dd id="trackerOwner">Not assigned yet</dd>
             </div>
             <div>
               <dt>Put this in Next Action</dt>
-              <dd id="trackerAction">Confirm whether the position is fixed or flexed.</dd>
+              <dd id="trackerAction">Choose a position type in Path Builder.</dd>
             </div>
             <div>
               <dt>Evidence that moves it forward</dt>
-              <dd id="trackerEvidence">Job code or fixed-position listing checked.</dd>
+              <dd id="trackerEvidence">None yet.</dd>
             </div>
           </dl>
 
@@ -108,6 +108,6 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260615-4"></script>
+    <script src="app.js?v=20260615-5"></script>
   </body>
 </html>

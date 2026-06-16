@@ -22,7 +22,7 @@ const statuses = [
 
 const phases = [
   {
-    title: "Internal FTE",
+    title: "Internal FTE Committee",
     ids: ["01", "02", "03", "04", "05"],
     substeps: [
       { label: "Choose lane", ids: ["01"] },
@@ -208,6 +208,20 @@ function statusById(id) {
   return statuses.find((status) => status.id === id) || statuses[0];
 }
 
+function hasStarted() {
+  return Boolean(state.type || state.statusOverride);
+}
+
+function cleanStatusLabel(status) {
+  return status.label.replace(/^\d+\s+/, "");
+}
+
+function currentMilestoneText(path, currentStatus) {
+  const index = path.findLastIndex((node) => node.statusId === currentStatus.id);
+  if (index < 0) return "";
+  return `Milestone ${index + 1} of ${path.length}`;
+}
+
 function resetAfter(id) {
   const index = dependencyOrder.indexOf(id);
   dependencyOrder.slice(index + 1).forEach((key) => {
@@ -281,11 +295,12 @@ function renderPhaseMap(currentStatus, path) {
   const map = document.getElementById("phaseMap");
   const currentIndex = getPhaseIndex(currentStatus.id);
   const pathStatusIds = new Set(path.map((node) => node.statusId));
+  const started = hasStarted();
   map.innerHTML = "";
 
   phases.forEach((phase, index) => {
-    const isActive = index === currentIndex;
-    const isDone = index < currentIndex && phase.ids.some((id) => pathStatusIds.has(id));
+    const isActive = started && index === currentIndex;
+    const isDone = started && index < currentIndex && phase.ids.some((id) => pathStatusIds.has(id));
     const phaseItem = document.createElement("article");
     phaseItem.className = `phase-item ${isActive ? "active" : ""} ${isDone ? "done" : ""}`;
     phaseItem.innerHTML = `
@@ -299,7 +314,7 @@ function renderPhaseMap(currentStatus, path) {
     const substepList = phaseItem.querySelector(".phase-substeps");
     phase.substeps.forEach((substep) => {
       const substepItem = document.createElement("span");
-      substepItem.className = `phase-substep ${substep.ids.includes(currentStatus.id) ? "active" : ""}`;
+      substepItem.className = `phase-substep ${started && substep.ids.includes(currentStatus.id) ? "active" : ""}`;
       substepItem.textContent = substep.label;
       substepList.appendChild(substepItem);
     });
@@ -342,6 +357,10 @@ function renderPath(path, currentStatus) {
   list.innerHTML = "";
   document.getElementById("pathMode").textContent = state.type ? `${state.type[0].toUpperCase()}${state.type.slice(1)} path` : "Choose a path";
 
+  if (!hasStarted()) {
+    return;
+  }
+
   path.forEach((node, index) => {
     const status = statusById(node.statusId);
     const item = document.createElement("article");
@@ -353,7 +372,8 @@ function renderPath(path, currentStatus) {
         <div class="node-kicker">${isCurrent ? "You are here" : node.terminal ? "End state" : "Earlier step"}</div>
         <div class="node-title">${node.title}</div>
         <div class="node-meta">
-          <span class="tag">${status.label}</span>
+          <span class="tag">${cleanStatusLabel(status)}</span>
+          <span class="tag">Milestone ${index + 1} of ${path.length}</span>
           <span class="tag">${node.owner}</span>
           <span class="tag">${node.cadence}</span>
         </div>
@@ -364,13 +384,29 @@ function renderPath(path, currentStatus) {
   });
 }
 
-function renderTracker(status, node) {
-  document.getElementById("currentStatus").textContent = status.label;
+function renderTracker(status, node, path) {
+  if (!hasStarted()) {
+    document.getElementById("currentStatus").textContent = "Not started";
+    document.body.dataset.status = "not-started";
+    document.getElementById("waitingOn").textContent = "Not assigned yet";
+    document.getElementById("nextGate").textContent = "Choose a path below";
+    document.getElementById("stagePill").textContent = "Not started";
+    document.getElementById("trackerStatus").textContent = "No path selected yet";
+    document.getElementById("trackerOwner").textContent = "Not assigned yet";
+    document.getElementById("trackerAction").textContent = "Choose a position type in Path Builder.";
+    document.getElementById("trackerEvidence").textContent = "None yet.";
+    document.querySelector("#currentActionCard strong").textContent = "Choose a position type to begin.";
+    return;
+  }
+
+  const milestone = currentMilestoneText(path, status);
+  const statusLabel = cleanStatusLabel(status);
+  document.getElementById("currentStatus").textContent = milestone ? `${statusLabel} (${milestone.toLowerCase()})` : statusLabel;
   document.body.dataset.status = status.id;
-  document.getElementById("waitingOn").textContent = node ? node.owner : status.owner;
+  document.getElementById("waitingOn").textContent = status.owner;
   document.getElementById("nextGate").textContent = node ? node.title : status.action;
   document.getElementById("stagePill").textContent = status.stage;
-  document.getElementById("trackerStatus").textContent = status.label;
+  document.getElementById("trackerStatus").textContent = milestone ? `${statusLabel} (${milestone.toLowerCase()})` : statusLabel;
   document.getElementById("trackerOwner").textContent = status.owner;
   document.getElementById("trackerAction").textContent = status.action;
   document.getElementById("trackerEvidence").textContent = status.evidence;
@@ -383,8 +419,8 @@ function renderStatusLibrary(currentStatus) {
   statuses.forEach((status) => {
     const item = document.createElement("button");
     item.type = "button";
-    item.className = `status-item ${status.id === currentStatus.id ? "active" : ""}`;
-    item.innerHTML = `<strong>${status.label}</strong><span>${status.stage}</span>`;
+    item.className = `status-item ${hasStarted() && status.id === currentStatus.id ? "active" : ""}`;
+    item.innerHTML = `<strong>${cleanStatusLabel(status)}</strong><span>${status.stage}</span>`;
     item.addEventListener("click", () => {
       state.statusOverride = status.id;
       render();
@@ -399,7 +435,7 @@ function render() {
   renderPhaseMap(status, path);
   renderDecisions();
   renderPath(path, status);
-  renderTracker(status, node);
+  renderTracker(status, node, path);
   renderStatusLibrary(status);
 }
 
