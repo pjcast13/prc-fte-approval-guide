@@ -8,7 +8,7 @@
       name="description"
       content="Interactive decision path for tracking PRC FTE requisitions."
     />
-    <link rel="stylesheet" href="styles.css?v=20260615-3" />
+    <link rel="stylesheet" href="styles.css?v=20260615-4" />
   </head>
   <body>
     <main class="app-shell">
@@ -42,11 +42,19 @@
         </div>
       </section>
 
+      <section class="phase-map" aria-label="Process overview">
+        <div class="phase-map-heading">
+          <h2>Big Picture</h2>
+          <span>Broad phases, not 19 steps</span>
+        </div>
+        <div id="phaseMap" class="phase-map-grid"></div>
+      </section>
+
       <section class="workspace">
         <aside class="decision-panel" aria-label="Decision controls">
           <div class="panel-heading">
             <h2>Path Builder</h2>
-            <span id="stepCount">Step 1</span>
+            <span id="stepCount">Question 1</span>
           </div>
           <div class="panel-help">
             Start at the top. Pick one answer in each card that appears. Each answer adds the next card and narrows the path.
@@ -90,16 +98,16 @@
             </div>
           </dl>
 
-          <div class="status-library">
-            <h3>Status Library</h3>
-            <p class="status-library-note">Use this only if you already know the req status and want to jump there.</p>
+          <details class="status-library">
+            <summary>Status Library</summary>
+            <p class="status-library-note">These are tracker labels, not the full process sequence.</p>
             <div id="statusLibrary" class="status-library-list"></div>
-          </div>
+          </details>
         </aside>
       </section>
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260615-3"></script>
+    <script src="app.js?v=20260615-4"></script>
   </body>
 </html>

@@ -20,6 +20,50 @@ const statuses = [
   { id: "19", label: "19 Recruiting active", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Track posting, candidate slate, and hiring progress outside the PRC approval path.", evidence: "Posting, TA update, or candidate activity." },
 ];
 
+const phases = [
+  {
+    title: "Internal FTE",
+    ids: ["01", "02", "03", "04", "05"],
+    substeps: [
+      { label: "Choose lane", ids: ["01"] },
+      { label: "Submit SmartSheet", ids: ["02"] },
+      { label: "Committee decision", ids: ["03", "04", "05"] },
+    ],
+  },
+  {
+    title: "Workday or Beeline",
+    ids: ["06", "07"],
+    substeps: [
+      { label: "Create req", ids: ["06"] },
+      { label: "Clear approvers", ids: ["07"] },
+    ],
+  },
+  {
+    title: "PRC",
+    ids: ["08", "09", "10", "11"],
+    substeps: [
+      { label: "Exported for PRC", ids: ["08"] },
+      { label: "PRC decision", ids: ["09", "10", "11"] },
+    ],
+  },
+  {
+    title: "Appeal, if denied",
+    ids: ["12", "13", "14", "15", "16", "17"],
+    substeps: [
+      { label: "PRG", ids: ["12", "13", "14", "15"] },
+      { label: "PRE", ids: ["16", "17"] },
+    ],
+  },
+  {
+    title: "Outcome",
+    ids: ["10", "14", "17", "18", "19"],
+    substeps: [
+      { label: "Released to recruit", ids: ["10", "14", "17", "19"] },
+      { label: "Closed", ids: ["18"] },
+    ],
+  },
+];
+
 const baseNodes = {
   classify: { title: "Find the lane", owner: "Hiring manager", cadence: "Before routing", detail: "Check the job code or ask Business Ops: fixed or flexed?", statusId: "01" },
   fixedSubmit: { title: "Submit the internal FTE SmartSheet request", owner: "Hiring manager", cadence: "At intake", detail: "Enter the request in the internal FTE committee SmartSheet and save the row or confirmation.", statusId: "02" },
@@ -31,17 +75,17 @@ const baseNodes = {
   reqSubmit: { title: "Create the req number", owner: "Hiring manager", cadence: "Within two weeks", detail: "Open Workday or Beeline, create the requisition, and copy the req number into the tracker.", statusId: "06" },
   reqApprovals: { title: "Nudge the stuck approver", owner: "Hiring manager leaders", cadence: "Within 24 hours each", detail: "Check the approval chain. If someone is sitting on it, send a direct nudge.", statusId: "07" },
   prcExport: { title: "Confirm PRC export", owner: "Business Ops", cadence: "Friday noon", detail: "Ask Business Ops whether this approved Workday or Beeline req was included in the PRC export.", statusId: "08" },
-  prcReview: { title: "Wait for the PRC decision email", owner: "PRC", cadence: "Monday 10 AM", detail: "After Monday PRC, watch for the decision email on Monday or Tuesday.", statusId: "09" },
+  prcReview: { title: "Wait for the PRC decision", owner: "PRC", cadence: "Monday 10 AM", detail: "Confirm it made the PRC list, then watch for the decision email on Monday or Tuesday.", statusId: "09" },
   prcApproved: { title: "Confirm the req is released", owner: "Hiring manager plus TA", cadence: "After PRC approval", detail: "Confirm Workday or Beeline released the req, then start hiring/recruiting follow-through.", statusId: "10", terminal: "good" },
   prcRfi: { title: "Answer the PRC RFI", owner: "Assigned response owner", cadence: "Same week", detail: "Find the missing information, email it to PRC, and save what you sent.", statusId: "11" },
   prcDenied: { title: "Ask whether the VP wants to appeal", owner: "VP", cadence: "After PRC denial", detail: "Send the denial summary to the VP and ask for an appeal yes or no.", statusId: "12" },
   prgIntent: { title: "Get on the PRG calendar", owner: "VP or delegate", cadence: "Before PRG scheduling", detail: "Send PRC the VP's intent to appeal and ask for the next PRG slot.", statusId: "13" },
   prgPacket: { title: "Finish the PRG appeal form", owner: "VP or delegate", cadence: "Day before PRG", detail: "Complete the appeal form and send it before the PRG deadline.", statusId: "13" },
-  prgReview: { title: "Prepare the VP for PRG", owner: "VP or delegate", cadence: "Thursday morning", detail: "Give the VP the short case: why this role, why now, and what happens if it stays denied.", statusId: "13" },
+  prgReview: { title: "Prepare the PRG appeal", owner: "VP or delegate", cadence: "Thursday morning", detail: "Get the VP on the PRG calendar, finish the appeal form, and prepare the short case.", statusId: "13" },
   prgApproved: { title: "Confirm the req is released", owner: "Hiring manager plus TA", cadence: "After PRG approval", detail: "Confirm Workday or Beeline released the req, then start hiring/recruiting follow-through.", statusId: "14", terminal: "good" },
   prgDenied: { title: "Ask whether the SVP wants to appeal", owner: "SVP", cadence: "After PRG denial", detail: "Send the PRG denial summary to the SVP and ask for a PRE appeal yes or no.", statusId: "15" },
   preIntent: { title: "Schedule PRE", owner: "SVP or delegate", cadence: "Ad hoc", detail: "Email PRC to schedule the SVP for PRE.", statusId: "16" },
-  preReview: { title: "Prepare the SVP for PRE", owner: "SVP or delegate", cadence: "Ad hoc", detail: "Give the SVP the short case and the prior denial history.", statusId: "16" },
+  preReview: { title: "Prepare the PRE appeal", owner: "SVP or delegate", cadence: "Ad hoc", detail: "Schedule PRE and prepare the SVP with the short case and prior denial history.", statusId: "16" },
   preApproved: { title: "Confirm the req is released", owner: "Hiring manager plus TA", cadence: "After PRE approval", detail: "Confirm Workday or Beeline released the req, then start hiring/recruiting follow-through.", statusId: "17", terminal: "good" },
   closed: { title: "Close the loop", owner: "Portfolio leader", cadence: "Final", detail: "Mark the req closed and write the reason so it does not keep floating.", statusId: "18", terminal: "stop" },
   recruiting: { title: "Track recruiting outside PRC", owner: "Hiring manager plus TA", cadence: "After approval", detail: "PRC is done. Move the work to posting, candidate slate, and hiring follow-through.", statusId: "19", terminal: "good" },
@@ -63,7 +107,7 @@ const state = {
 const decisionConfig = [
   {
     id: "type",
-    title: "1. What type of position is this?",
+    title: "What type of position is this?",
     note: "Pick one. This decides which approval lane the request uses.",
     options: [
       { value: "fixed", label: "Fixed" },
@@ -73,7 +117,7 @@ const decisionConfig = [
   },
   {
     id: "fteDecision",
-    title: "2. Has the internal FTE committee approved the SmartSheet request?",
+    title: "Has the internal FTE committee approved the SmartSheet request?",
     note: "Approved means you can start the Workday or Beeline req. Pending means it is still waiting for committee review. Denied means stop or rework before creating a req.",
     options: [
       { value: "pending", label: "Pending" },
@@ -84,7 +128,7 @@ const decisionConfig = [
   },
   {
     id: "reqSubmitted",
-    title: "3. Is there a Workday or Beeline req?",
+    title: "Is there a Workday or Beeline req?",
     note: "If there is no req number yet, this is the next move.",
     options: [
       { value: "no", label: "No" },
@@ -94,7 +138,7 @@ const decisionConfig = [
   },
   {
     id: "reqApproved",
-    title: "4. Are req approvals complete?",
+    title: "Are req approvals complete?",
     note: "Check the Workday or Beeline approval chain.",
     options: [
       { value: "pending", label: "Pending" },
@@ -104,7 +148,7 @@ const decisionConfig = [
   },
   {
     id: "prcDecision",
-    title: "5. What did PRC decide?",
+    title: "What did PRC decide?",
     note: "Use the PRC decision email. Pending means it is still waiting for the Monday decision.",
     options: [
       { value: "pending", label: "Pending" },
@@ -116,7 +160,7 @@ const decisionConfig = [
   },
   {
     id: "vpAppeal",
-    title: "6. Is the VP appealing at PRG?",
+    title: "Is the VP appealing at PRG?",
     note: "If no, close the req. If yes, prepare the PRG appeal.",
     options: [
       { value: "yes", label: "Yes" },
@@ -126,7 +170,7 @@ const decisionConfig = [
   },
   {
     id: "prgDecision",
-    title: "7. What did PRG decide?",
+    title: "What did PRG decide?",
     note: "Use the PRG appeal result.",
     options: [
       { value: "pending", label: "Pending" },
@@ -137,7 +181,7 @@ const decisionConfig = [
   },
   {
     id: "svpAppeal",
-    title: "8. Is the SVP appealing at PRE?",
+    title: "Is the SVP appealing at PRE?",
     note: "If no, close the req. If yes, prepare the PRE appeal.",
     options: [
       { value: "yes", label: "Yes" },
@@ -147,7 +191,7 @@ const decisionConfig = [
   },
   {
     id: "preDecision",
-    title: "9. What did PRE decide?",
+    title: "What did PRE decide?",
     note: "This is the final appeal result.",
     options: [
       { value: "pending", label: "Pending" },
@@ -183,22 +227,17 @@ function getPath() {
 
   if (!state.type) return nodes;
 
-  if (state.type === "fixed") {
-    nodes.push(baseNodes.fixedSubmit, baseNodes.fixedPrep, baseNodes.fixedDr);
-  } else {
-    nodes.push(baseNodes.flexReview);
-  }
+  nodes.push(baseNodes.fixedSubmit, baseNodes.fixedPrep);
 
   if (!state.fteDecision || state.fteDecision === "pending") return nodes;
   if (state.fteDecision === "denied") return [...nodes, baseNodes.fteDenied];
 
-  nodes.push(baseNodes.fteApproved);
   if (!state.reqSubmitted || state.reqSubmitted === "no") return [...nodes, baseNodes.reqSubmit];
 
   nodes.push(baseNodes.reqSubmit);
   if (!state.reqApproved || state.reqApproved === "pending") return [...nodes, baseNodes.reqApprovals];
 
-  nodes.push(baseNodes.reqApprovals, baseNodes.prcExport, baseNodes.prcReview);
+  nodes.push(baseNodes.reqApprovals, baseNodes.prcReview);
   if (!state.prcDecision || state.prcDecision === "pending") return nodes;
   if (state.prcDecision === "approved") return [...nodes, baseNodes.prcApproved, baseNodes.recruiting];
   if (state.prcDecision === "rfi") return [...nodes, baseNodes.prcRfi];
@@ -207,7 +246,7 @@ function getPath() {
   if (!state.vpAppeal) return nodes;
   if (state.vpAppeal === "no") return [...nodes, baseNodes.closed];
 
-  nodes.push(baseNodes.prgIntent, baseNodes.prgPacket, baseNodes.prgReview);
+  nodes.push(baseNodes.prgReview);
   if (!state.prgDecision || state.prgDecision === "pending") return nodes;
   if (state.prgDecision === "approved") return [...nodes, baseNodes.prgApproved, baseNodes.recruiting];
 
@@ -215,7 +254,7 @@ function getPath() {
   if (!state.svpAppeal) return nodes;
   if (state.svpAppeal === "no") return [...nodes, baseNodes.closed];
 
-  nodes.push(baseNodes.preIntent, baseNodes.preReview);
+  nodes.push(baseNodes.preReview);
   if (!state.preDecision || state.preDecision === "pending") return nodes;
   if (state.preDecision === "approved") return [...nodes, baseNodes.preApproved, baseNodes.recruiting];
   return [...nodes, baseNodes.closed];
@@ -230,12 +269,51 @@ function getCurrentNode(path) {
   return { status: statusById(current.statusId), node: current };
 }
 
+function getPhaseIndex(statusId) {
+  const exactIndex = phases.findIndex((phase) => phase.ids.includes(statusId) && phase.title !== "Outcome");
+  if (["10", "14", "17", "18", "19"].includes(statusId)) {
+    return phases.length - 1;
+  }
+  return exactIndex >= 0 ? exactIndex : 0;
+}
+
+function renderPhaseMap(currentStatus, path) {
+  const map = document.getElementById("phaseMap");
+  const currentIndex = getPhaseIndex(currentStatus.id);
+  const pathStatusIds = new Set(path.map((node) => node.statusId));
+  map.innerHTML = "";
+
+  phases.forEach((phase, index) => {
+    const isActive = index === currentIndex;
+    const isDone = index < currentIndex && phase.ids.some((id) => pathStatusIds.has(id));
+    const phaseItem = document.createElement("article");
+    phaseItem.className = `phase-item ${isActive ? "active" : ""} ${isDone ? "done" : ""}`;
+    phaseItem.innerHTML = `
+      <div class="phase-topline">
+        <span class="phase-number">${index + 1}</span>
+        <strong>${phase.title}</strong>
+      </div>
+      <div class="phase-substeps"></div>
+    `;
+
+    const substepList = phaseItem.querySelector(".phase-substeps");
+    phase.substeps.forEach((substep) => {
+      const substepItem = document.createElement("span");
+      substepItem.className = `phase-substep ${substep.ids.includes(currentStatus.id) ? "active" : ""}`;
+      substepItem.textContent = substep.label;
+      substepList.appendChild(substepItem);
+    });
+
+    map.appendChild(phaseItem);
+  });
+}
+
 function renderDecisions() {
   const stack = document.getElementById("decisionStack");
   stack.innerHTML = "";
   const visible = decisionConfig.filter((item) => item.visible());
   const answered = visible.filter((item) => Boolean(state[item.id])).length;
-  document.getElementById("stepCount").textContent = `Step ${Math.min(answered + 1, decisionConfig.length)}`;
+  document.getElementById("stepCount").textContent = `Question ${Math.min(answered + 1, decisionConfig.length)}`;
 
   visible.forEach((decision) => {
     const card = document.createElement("section");
@@ -318,6 +396,7 @@ function renderStatusLibrary(currentStatus) {
 function render() {
   const path = getPath();
   const { status, node } = getCurrentNode(path);
+  renderPhaseMap(status, path);
   renderDecisions();
   renderPath(path, status);
   renderTracker(status, node);
