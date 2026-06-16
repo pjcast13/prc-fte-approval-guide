@@ -1,50 +1,50 @@
 const statuses = [
-  { id: "01", label: "01 Intake: classify fixed or flex", stage: "Intake", owner: "Hiring manager plus Business Ops", action: "Confirm whether the position is fixed or flexed.", evidence: "Job code or fixed-position listing checked." },
-  { id: "02", label: "02 Intake: request submitted", stage: "Intake", owner: "Hiring manager", action: "Submit or confirm position request in the portfolio intake path.", evidence: "Request ID or email confirmation." },
-  { id: "03", label: "03 FTE review pending", stage: "Intake", owner: "Business Ops or portfolio leader", action: "Confirm the next FTE review meeting and who is representing the request.", evidence: "Next meeting date and named owner." },
-  { id: "04", label: "04 FTE denied", stage: "Closed", owner: "Portfolio leader", action: "Close or rework before a requisition is submitted.", evidence: "Decision marked in request system." },
-  { id: "05", label: "05 FTE approved", stage: "Requisition", owner: "Hiring manager", action: "Submit the requisition in Workday or Beeline.", evidence: "Approval note or system decision." },
-  { id: "06", label: "06 Req submission pending", stage: "Requisition", owner: "Hiring manager", action: "Create the Workday or Beeline requisition.", evidence: "No requisition number yet." },
-  { id: "07", label: "07 Req approvals pending", stage: "Requisition", owner: "Hiring manager leaders", action: "Clear hiring manager and leader approvals.", evidence: "Approval chain still open." },
-  { id: "08", label: "08 Ready for PRC export", stage: "PRC", owner: "Business Ops", action: "Confirm inclusion in the Friday noon PRC export.", evidence: "Approved req visible for export." },
-  { id: "09", label: "09 PRC review pending", stage: "PRC", owner: "PRC", action: "Watch for the Monday PRC decision.", evidence: "Exported list or PRC agenda." },
-  { id: "10", label: "10 PRC approved", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Work with Talent Acquisition to fill the position.", evidence: "PRC decision email." },
-  { id: "11", label: "11 PRC RFI", stage: "PRC", owner: "Assigned response owner", action: "Send the requested information to PRC.", evidence: "RFI email with requested info." },
-  { id: "12", label: "12 PRC denied", stage: "Appeal", owner: "VP", action: "Decide whether VP appeal is warranted.", evidence: "Denial email." },
-  { id: "13", label: "13 PRG appeal pending", stage: "Appeal", owner: "VP or delegate", action: "Get on the PRG calendar and submit the appeal form.", evidence: "VP intent email and PRG slot." },
-  { id: "14", label: "14 PRG approved", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Work with Talent Acquisition to fill the position.", evidence: "PRG approval notice." },
-  { id: "15", label: "15 PRG denied", stage: "Appeal", owner: "SVP", action: "Decide whether SVP appeal is warranted.", evidence: "PRG denial notice." },
-  { id: "16", label: "16 PRE appeal pending", stage: "Appeal", owner: "SVP", action: "Schedule and prepare for PRE appeal.", evidence: "PRE scheduling email." },
-  { id: "17", label: "17 PRE approved", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Work with Talent Acquisition to fill the position.", evidence: "PRE approval notice." },
-  { id: "18", label: "18 Closed: denied or withdrawn", stage: "Closed", owner: "Portfolio leader", action: "Close the req or rework as a new request.", evidence: "Final denial, no-appeal decision, or withdrawal." },
-  { id: "19", label: "19 Recruiting active", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Track posting and candidate activity.", evidence: "TA handoff or active posting." },
+  { id: "01", label: "01 Decide fixed vs flex", stage: "Intake", owner: "Hiring manager", action: "Check the job code or ask Business Ops whether this role is fixed or flexed.", evidence: "Fixed or flexed is written in your notes." },
+  { id: "02", label: "02 Submit position request", stage: "Intake", owner: "Hiring manager", action: "Submit the position request in the right intake path, then save the request ID or confirmation.", evidence: "Request ID, submission confirmation, or forwarded intake email." },
+  { id: "03", label: "03 Waiting for FTE approval", stage: "Intake", owner: "Business Ops or portfolio leader", action: "Ask: what meeting is this going to, when is it, and who is speaking for it?", evidence: "Meeting date and named presenter." },
+  { id: "04", label: "04 FTE denied", stage: "Closed", owner: "Portfolio leader", action: "Decide whether to rework the request or stop before creating a requisition.", evidence: "Denial marked in the request system or decision email." },
+  { id: "05", label: "05 FTE approved", stage: "Requisition", owner: "Hiring manager", action: "Open Workday or Beeline and create the requisition.", evidence: "FTE approval note or system decision." },
+  { id: "06", label: "06 Create Workday or Beeline req", stage: "Requisition", owner: "Hiring manager", action: "Create the req and put the req number in your tracker.", evidence: "Workday or Beeline requisition number." },
+  { id: "07", label: "07 Chase req approvers", stage: "Requisition", owner: "Hiring manager leaders", action: "Look at the approval chain and nudge the person whose approval is sitting.", evidence: "Approval chain screenshot or status showing the pending approver." },
+  { id: "08", label: "08 Confirm Friday PRC export", stage: "PRC", owner: "Business Ops", action: "Ask Business Ops whether this approved req made the Friday noon PRC export.", evidence: "Included on export list or confirmed by Business Ops." },
+  { id: "09", label: "09 Wait for Monday PRC decision", stage: "PRC", owner: "PRC", action: "Watch for the Monday or Tuesday PRC decision email.", evidence: "PRC agenda, exported list, or decision email." },
+  { id: "10", label: "10 PRC approved", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Confirm TA has the req and recruiting is active.", evidence: "TA handoff, posting, or candidate activity." },
+  { id: "11", label: "11 Answer PRC RFI", stage: "PRC", owner: "Assigned response owner", action: "Find the missing info, send it to PRC, and note what was sent.", evidence: "RFI response email sent to PRC." },
+  { id: "12", label: "12 Decide PRG appeal", stage: "Appeal", owner: "VP", action: "Ask the VP whether they want to appeal the denial at PRG.", evidence: "VP says appeal or no appeal." },
+  { id: "13", label: "13 Prepare PRG appeal", stage: "Appeal", owner: "VP or delegate", action: "Get the VP on the PRG calendar and finish the appeal form before the meeting.", evidence: "PRG calendar slot and completed appeal form." },
+  { id: "14", label: "14 PRG approved", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Confirm TA has the req and recruiting is active.", evidence: "PRG approval notice plus TA handoff." },
+  { id: "15", label: "15 Decide PRE appeal", stage: "Appeal", owner: "SVP", action: "Ask the SVP whether they want to appeal the PRG denial at PRE.", evidence: "SVP says appeal or no appeal." },
+  { id: "16", label: "16 Prepare PRE appeal", stage: "Appeal", owner: "SVP", action: "Schedule the PRE appeal and prepare the SVP to present the case.", evidence: "PRE schedule confirmation." },
+  { id: "17", label: "17 PRE approved", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Confirm TA has the req and recruiting is active.", evidence: "PRE approval notice plus TA handoff." },
+  { id: "18", label: "18 Closed", stage: "Closed", owner: "Portfolio leader", action: "Mark the req closed and write why: denied, no appeal, withdrawn, or rework later.", evidence: "Final denial, no-appeal decision, or withdrawal note." },
+  { id: "19", label: "19 Recruiting active", stage: "Recruiting", owner: "Hiring manager plus TA", action: "Track posting, candidate slate, and hiring progress outside the PRC approval path.", evidence: "Posting, TA update, or candidate activity." },
 ];
 
 const baseNodes = {
-  classify: { title: "Classify position", owner: "Hiring manager plus Business Ops", cadence: "Before routing", detail: "Decide whether the position follows the fixed or flex path.", statusId: "01" },
-  fixedSubmit: { title: "Submit fixed-position request", owner: "Hiring manager", cadence: "At intake", detail: "Use the clinical portfolio request form.", statusId: "02" },
-  fixedPrep: { title: "Fixed requests pulled for DR prep", owner: "Business Ops", cadence: "Friday noon", detail: "Business Ops prepares the file for the upcoming direct-report meeting.", statusId: "03" },
-  fixedDr: { title: "Direct report represents request", owner: "Sam Wald direct-report leader", cadence: "Monday", detail: "The leader overseeing the role represents the request at the DR meeting.", statusId: "03" },
-  flexReview: { title: "Portfolio FTE review", owner: "Portfolio FTE approval group", cadence: "Varies", detail: "Flex requests are reviewed in the portfolio-level FTE approval meeting.", statusId: "03" },
-  fteDenied: { title: "FTE denied", owner: "Portfolio leader", cadence: "Monday or Tuesday notice", detail: "Decision is marked and the leader or submitter is notified.", statusId: "04", terminal: "stop" },
-  fteApproved: { title: "FTE approved", owner: "Approving group", cadence: "Gate cleared", detail: "The position can now move to requisition submission.", statusId: "05" },
-  reqSubmit: { title: "Submit Workday or Beeline requisition", owner: "Hiring manager", cadence: "Within two weeks", detail: "The approved FTE becomes a formal requisition.", statusId: "06" },
-  reqApprovals: { title: "Clear requisition approvals", owner: "Hiring manager and leaders", cadence: "Within 24 hours each", detail: "Hiring manager approval and one to two leadership approvals clear the chain.", statusId: "07" },
-  prcExport: { title: "Export approved requisitions", owner: "Business Ops", cadence: "Friday noon", detail: "Approved Workday or Beeline reqs are exported for PRC.", statusId: "08" },
-  prcReview: { title: "PRC review", owner: "PRC", cadence: "Monday 10 AM", detail: "PRC reviews and decides based on the algorithm.", statusId: "09" },
-  prcApproved: { title: "PRC approved", owner: "Hiring manager plus TA", cadence: "Monday or Tuesday notice", detail: "Work with Talent Acquisition to fill the position.", statusId: "10", terminal: "good" },
-  prcRfi: { title: "PRC requested information", owner: "Assigned response owner", cadence: "Respond quickly", detail: "Email the requested information to PRC, then return to the PRC queue.", statusId: "11" },
-  prcDenied: { title: "PRC denied", owner: "VP", cadence: "Monday or Tuesday notice", detail: "Align with VP on whether to appeal at PRG.", statusId: "12" },
-  prgIntent: { title: "VP appeal intent", owner: "VP", cadence: "Before PRG scheduling", detail: "VP emails PRC with intent to appeal and asks to get on the PRG calendar.", statusId: "13" },
-  prgPacket: { title: "Appeal form submitted", owner: "VP or delegate", cadence: "Day before PRG", detail: "Prepare and submit the PRC appeal form.", statusId: "13" },
-  prgReview: { title: "PRG appeal review", owner: "VP or delegate", cadence: "Thursday morning", detail: "VP presents the appeal at scheduled PRG.", statusId: "13" },
-  prgApproved: { title: "PRG approved", owner: "Hiring manager plus TA", cadence: "After PRG", detail: "Work with Talent Acquisition to fill the position.", statusId: "14", terminal: "good" },
-  prgDenied: { title: "PRG denied", owner: "SVP", cadence: "After PRG", detail: "Align with SVP on whether to appeal again at PRE.", statusId: "15" },
-  preIntent: { title: "SVP appeal intent", owner: "SVP", cadence: "Ad hoc", detail: "Email PRC to schedule SVP for PRE.", statusId: "16" },
-  preReview: { title: "PRE appeal review", owner: "SVP", cadence: "Ad hoc", detail: "SVP represents the appeal at PRE.", statusId: "16" },
-  preApproved: { title: "PRE approved", owner: "Hiring manager plus TA", cadence: "After PRE", detail: "Work with Talent Acquisition to fill the position.", statusId: "17", terminal: "good" },
-  closed: { title: "Closed", owner: "Portfolio leader", cadence: "Final", detail: "No appeal, final denial, or withdrawal.", statusId: "18", terminal: "stop" },
-  recruiting: { title: "Recruiting active", owner: "Hiring manager plus TA", cadence: "After approval", detail: "Track posting and candidate activity.", statusId: "19", terminal: "good" },
+  classify: { title: "Find the lane", owner: "Hiring manager", cadence: "Before routing", detail: "Check the job code or ask Business Ops: fixed or flexed?", statusId: "01" },
+  fixedSubmit: { title: "Submit the fixed-position request", owner: "Hiring manager", cadence: "At intake", detail: "Submit the request, then save the request ID or confirmation email.", statusId: "02" },
+  fixedPrep: { title: "Confirm it made Friday prep", owner: "Business Ops", cadence: "Friday noon", detail: "Ask Business Ops: did this fixed request make the Friday file for Monday review?", statusId: "03" },
+  fixedDr: { title: "Confirm who will speak for it", owner: "Senior leadership direct-report leader", cadence: "Monday", detail: "Write down the leader representing the request and the Monday meeting date.", statusId: "03" },
+  flexReview: { title: "Get the flex request on the portfolio review agenda", owner: "Portfolio leader or Business Ops", cadence: "Varies", detail: "Ask: what portfolio FTE meeting will review this, and who owns the ask?", statusId: "03" },
+  fteDenied: { title: "Stop or rework before creating a req", owner: "Portfolio leader", cadence: "After decision", detail: "Write the denial reason. Decide whether to rework the request or close it.", statusId: "04", terminal: "stop" },
+  fteApproved: { title: "Start the requisition", owner: "Hiring manager", cadence: "After FTE approval", detail: "Use the FTE approval to create the Workday or Beeline requisition.", statusId: "05" },
+  reqSubmit: { title: "Create the req number", owner: "Hiring manager", cadence: "Within two weeks", detail: "Open Workday or Beeline, create the requisition, and copy the req number into the tracker.", statusId: "06" },
+  reqApprovals: { title: "Nudge the stuck approver", owner: "Hiring manager leaders", cadence: "Within 24 hours each", detail: "Check the approval chain. If someone is sitting on it, send a direct nudge.", statusId: "07" },
+  prcExport: { title: "Confirm Friday export", owner: "Business Ops", cadence: "Friday noon", detail: "Ask Business Ops whether this approved req was included in the Friday PRC export.", statusId: "08" },
+  prcReview: { title: "Wait for the PRC decision email", owner: "PRC", cadence: "Monday 10 AM", detail: "After Monday PRC, watch for the decision email on Monday or Tuesday.", statusId: "09" },
+  prcApproved: { title: "Hand it to recruiting", owner: "Hiring manager plus TA", cadence: "After PRC approval", detail: "Confirm TA has the req and recruiting is active.", statusId: "10", terminal: "good" },
+  prcRfi: { title: "Answer the PRC RFI", owner: "Assigned response owner", cadence: "Same week", detail: "Find the missing information, email it to PRC, and save what you sent.", statusId: "11" },
+  prcDenied: { title: "Ask whether the VP wants to appeal", owner: "VP", cadence: "After PRC denial", detail: "Send the denial summary to the VP and ask for an appeal yes or no.", statusId: "12" },
+  prgIntent: { title: "Get on the PRG calendar", owner: "VP or delegate", cadence: "Before PRG scheduling", detail: "Send PRC the VP's intent to appeal and ask for the next PRG slot.", statusId: "13" },
+  prgPacket: { title: "Finish the PRG appeal form", owner: "VP or delegate", cadence: "Day before PRG", detail: "Complete the appeal form and send it before the PRG deadline.", statusId: "13" },
+  prgReview: { title: "Prepare the VP for PRG", owner: "VP or delegate", cadence: "Thursday morning", detail: "Give the VP the short case: why this role, why now, and what happens if it stays denied.", statusId: "13" },
+  prgApproved: { title: "Hand it to recruiting", owner: "Hiring manager plus TA", cadence: "After PRG approval", detail: "Confirm TA has the req and recruiting is active.", statusId: "14", terminal: "good" },
+  prgDenied: { title: "Ask whether the SVP wants to appeal", owner: "SVP", cadence: "After PRG denial", detail: "Send the PRG denial summary to the SVP and ask for a PRE appeal yes or no.", statusId: "15" },
+  preIntent: { title: "Schedule PRE", owner: "SVP or delegate", cadence: "Ad hoc", detail: "Email PRC to schedule the SVP for PRE.", statusId: "16" },
+  preReview: { title: "Prepare the SVP for PRE", owner: "SVP or delegate", cadence: "Ad hoc", detail: "Give the SVP the short case and the prior denial history.", statusId: "16" },
+  preApproved: { title: "Hand it to recruiting", owner: "Hiring manager plus TA", cadence: "After PRE approval", detail: "Confirm TA has the req and recruiting is active.", statusId: "17", terminal: "good" },
+  closed: { title: "Close the loop", owner: "Portfolio leader", cadence: "Final", detail: "Mark the req closed and write the reason so it does not keep floating.", statusId: "18", terminal: "stop" },
+  recruiting: { title: "Track recruiting outside PRC", owner: "Hiring manager plus TA", cadence: "After approval", detail: "PRC is done. Move the work to posting, candidate slate, and hiring follow-through.", statusId: "19", terminal: "good" },
 };
 
 const state = {
@@ -63,8 +63,8 @@ const state = {
 const decisionConfig = [
   {
     id: "type",
-    title: "Position type",
-    note: "This chooses the intake lane.",
+    title: "1. What type of position is this?",
+    note: "Pick one. This decides which approval lane the request uses.",
     options: [
       { value: "fixed", label: "Fixed" },
       { value: "flex", label: "Flex" },
@@ -73,8 +73,8 @@ const decisionConfig = [
   },
   {
     id: "fteDecision",
-    title: "FTE approval",
-    note: "Use the DR or portfolio decision.",
+    title: "2. Has the FTE been approved?",
+    note: "Use the decision from the fixed DR review or the flex portfolio review.",
     options: [
       { value: "pending", label: "Pending" },
       { value: "approved", label: "Approved" },
@@ -84,8 +84,8 @@ const decisionConfig = [
   },
   {
     id: "reqSubmitted",
-    title: "Requisition submitted",
-    note: "Workday or Beeline.",
+    title: "3. Is there a Workday or Beeline req?",
+    note: "If there is no req number yet, this is the next move.",
     options: [
       { value: "no", label: "No" },
       { value: "yes", label: "Yes" },
@@ -94,8 +94,8 @@ const decisionConfig = [
   },
   {
     id: "reqApproved",
-    title: "Approval chain",
-    note: "Hiring manager and leaders.",
+    title: "4. Are req approvals complete?",
+    note: "Check the Workday or Beeline approval chain.",
     options: [
       { value: "pending", label: "Pending" },
       { value: "complete", label: "Complete" },
@@ -104,8 +104,8 @@ const decisionConfig = [
   },
   {
     id: "prcDecision",
-    title: "PRC decision",
-    note: "Monday review outcome.",
+    title: "5. What did PRC decide?",
+    note: "Use the PRC decision email. Pending means it is still waiting for the Monday decision.",
     options: [
       { value: "pending", label: "Pending" },
       { value: "approved", label: "Approved" },
@@ -116,8 +116,8 @@ const decisionConfig = [
   },
   {
     id: "vpAppeal",
-    title: "VP appeal",
-    note: "PRG path.",
+    title: "6. Is the VP appealing at PRG?",
+    note: "If no, close the req. If yes, prepare the PRG appeal.",
     options: [
       { value: "yes", label: "Yes" },
       { value: "no", label: "No" },
@@ -126,8 +126,8 @@ const decisionConfig = [
   },
   {
     id: "prgDecision",
-    title: "PRG decision",
-    note: "Thursday appeal result.",
+    title: "7. What did PRG decide?",
+    note: "Use the PRG appeal result.",
     options: [
       { value: "pending", label: "Pending" },
       { value: "approved", label: "Approved" },
@@ -137,8 +137,8 @@ const decisionConfig = [
   },
   {
     id: "svpAppeal",
-    title: "SVP appeal",
-    note: "PRE path.",
+    title: "8. Is the SVP appealing at PRE?",
+    note: "If no, close the req. If yes, prepare the PRE appeal.",
     options: [
       { value: "yes", label: "Yes" },
       { value: "no", label: "No" },
@@ -147,8 +147,8 @@ const decisionConfig = [
   },
   {
     id: "preDecision",
-    title: "PRE decision",
-    note: "Final appeal result.",
+    title: "9. What did PRE decide?",
+    note: "This is the final appeal result.",
     options: [
       { value: "pending", label: "Pending" },
       { value: "approved", label: "Approved" },
@@ -272,13 +272,14 @@ function renderPath(path, currentStatus) {
     item.innerHTML = `
       <div class="node-index">${index + 1}</div>
       <div>
+        <div class="node-kicker">${isCurrent ? "You are here" : node.terminal ? "End state" : "Earlier step"}</div>
         <div class="node-title">${node.title}</div>
         <div class="node-meta">
           <span class="tag">${status.label}</span>
           <span class="tag">${node.owner}</span>
           <span class="tag">${node.cadence}</span>
         </div>
-        <p class="node-text">${node.detail}</p>
+        <p class="node-text"><strong>Action:</strong> ${node.detail}</p>
       </div>
     `;
     list.appendChild(item);
@@ -295,6 +296,7 @@ function renderTracker(status, node) {
   document.getElementById("trackerOwner").textContent = status.owner;
   document.getElementById("trackerAction").textContent = status.action;
   document.getElementById("trackerEvidence").textContent = status.evidence;
+  document.querySelector("#currentActionCard strong").textContent = status.action;
 }
 
 function renderStatusLibrary(currentStatus) {

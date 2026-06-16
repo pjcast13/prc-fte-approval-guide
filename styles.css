@@ -188,6 +188,39 @@ h3 {
   font-weight: 800;
 }
 
+.panel-help {
+  margin: 14px 14px 0;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  background: var(--teal-soft);
+  padding: 11px 12px;
+  color: #164e49;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.current-action {
+  margin: 14px 14px 0;
+  border: 1px solid rgba(140, 21, 21, 0.22);
+  border-radius: 8px;
+  background: #fff8f6;
+  padding: 13px 14px;
+}
+
+.current-action span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cardinal);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.current-action strong {
+  display: block;
+  line-height: 1.3;
+}
+
 .decision-stack {
   display: grid;
   gap: 14px;
@@ -305,6 +338,18 @@ h3 {
   line-height: 1.25;
 }
 
+.node-kicker {
+  margin-bottom: 3px;
+  color: var(--teal);
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.path-node:not(.current) .node-kicker {
+  color: var(--muted);
+}
+
 .node-meta {
   display: flex;
   flex-wrap: wrap;
@@ -326,6 +371,10 @@ h3 {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.4;
+}
+
+.node-text strong {
+  color: var(--ink);
 }
 
 .tracker-fields {
@@ -355,6 +404,13 @@ h3 {
 
 .status-library {
   padding: 16px;
+}
+
+.status-library-note {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
 .status-library-list {

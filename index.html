@@ -29,15 +29,15 @@
 
       <section class="status-strip" aria-label="Current path summary">
         <div>
-          <span class="strip-label">Current status</span>
+          <span class="strip-label">Tracker status</span>
           <strong id="currentStatus">Start by choosing a position type</strong>
         </div>
         <div>
-          <span class="strip-label">Waiting on</span>
+          <span class="strip-label">Who has it</span>
           <strong id="waitingOn">Classification</strong>
         </div>
         <div>
-          <span class="strip-label">Next gate</span>
+          <span class="strip-label">Next move</span>
           <strong id="nextGate">Fixed or flexed?</strong>
         </div>
       </section>
@@ -48,13 +48,20 @@
             <h2>Path Builder</h2>
             <span id="stepCount">Step 1</span>
           </div>
+          <div class="panel-help">
+            Start at the top. Pick one answer in each card that appears. Each answer adds the next card and narrows the path.
+          </div>
           <div id="decisionStack" class="decision-stack"></div>
         </aside>
 
         <section class="path-panel" aria-label="Filtered process path">
           <div class="panel-heading">
-            <h2>Filtered Path</h2>
+            <h2>What Happens Next</h2>
             <span id="pathMode">Choose a path</span>
+          </div>
+          <div class="current-action" id="currentActionCard">
+            <span>Current next action</span>
+            <strong>Choose whether the position is fixed or flexed.</strong>
           </div>
           <div id="pathList" class="path-list"></div>
         </section>
@@ -66,25 +73,26 @@
           </div>
           <dl class="tracker-fields">
             <div>
-              <dt>Status</dt>
+              <dt>Put this in Status</dt>
               <dd id="trackerStatus">01 Intake: classify fixed or flex</dd>
             </div>
             <div>
-              <dt>Owner</dt>
+              <dt>Put this in Waiting On</dt>
               <dd id="trackerOwner">Hiring manager plus Business Ops</dd>
             </div>
             <div>
-              <dt>Next action</dt>
+              <dt>Put this in Next Action</dt>
               <dd id="trackerAction">Confirm whether the position is fixed or flexed.</dd>
             </div>
             <div>
-              <dt>Evidence</dt>
+              <dt>Evidence that moves it forward</dt>
               <dd id="trackerEvidence">Job code or fixed-position listing checked.</dd>
             </div>
           </dl>
 
           <div class="status-library">
             <h3>Status Library</h3>
+            <p class="status-library-note">Use this only if you already know the req status and want to jump there.</p>
             <div id="statusLibrary" class="status-library-list"></div>
           </div>
         </aside>
