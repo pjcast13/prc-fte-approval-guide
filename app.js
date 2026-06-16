@@ -461,7 +461,7 @@ function copySummary() {
   const owner = document.getElementById("trackerOwner").textContent;
   const action = document.getElementById("trackerAction").textContent;
   const evidence = document.getElementById("trackerEvidence").textContent;
-  const summary = `Status: ${status}\nOwner: ${owner}\nNext action: ${action}\nEvidence: ${evidence}`;
+  const summary = `Where it is now: ${status}\nWho has the next move: ${owner}\nWhat the manager should do: ${action}\nWhat confirms it moved: ${evidence}`;
   navigator.clipboard?.writeText(summary).then(
     () => showToast("Status copied"),
     () => showToast("Copy unavailable"),

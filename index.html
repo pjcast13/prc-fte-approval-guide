@@ -8,7 +8,7 @@
       name="description"
       content="Interactive decision path for tracking PRC FTE requisitions."
     />
-    <link rel="stylesheet" href="styles.css?v=20260615-7" />
+    <link rel="stylesheet" href="styles.css?v=20260615-8" />
   </head>
   <body>
     <main class="app-shell">
@@ -61,26 +61,26 @@
           <div id="pathList" class="path-list"></div>
         </section>
 
-        <aside class="tracker-panel" aria-label="Tracker fields">
+        <aside class="tracker-panel" aria-label="Current request summary">
           <div class="panel-heading">
-            <h2>Tracker</h2>
+            <h2>Current Request</h2>
             <span id="stagePill">Not started</span>
           </div>
           <dl class="tracker-fields">
             <div>
-              <dt>Put this in Status</dt>
+              <dt>Where it is now</dt>
               <dd id="trackerStatus">No path selected yet</dd>
             </div>
             <div>
-              <dt>Put this in Waiting On</dt>
+              <dt>Who has the next move</dt>
               <dd id="trackerOwner">Not assigned yet</dd>
             </div>
             <div>
-              <dt>Put this in Next Action</dt>
+              <dt>What the manager should do</dt>
               <dd id="trackerAction">Choose a position type in Path Builder.</dd>
             </div>
             <div>
-              <dt>Evidence that moves it forward</dt>
+              <dt>What confirms it moved</dt>
               <dd id="trackerEvidence">None yet.</dd>
             </div>
           </dl>
@@ -95,6 +95,6 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260615-7"></script>
+    <script src="app.js?v=20260615-8"></script>
   </body>
 </html>
