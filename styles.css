@@ -122,11 +122,13 @@ h3 {
 }
 
 .page-summary p {
-  max-width: 1040px;
+  width: 100%;
   color: var(--ink);
   font-size: 0.98rem;
   font-weight: 680;
   line-height: 1.48;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .phase-map {
