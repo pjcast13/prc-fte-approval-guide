@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PRC FTE Approval Path</title>
+    <meta
+      name="description"
+      content="Interactive decision path for tracking PRC FTE requisitions."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-label="Page header">
+        <div>
+          <p class="eyebrow">Radiology FTE requisitions</p>
+          <h1>PRC Approval Path</h1>
+        </div>
+        <div class="top-actions">
+          <button class="icon-button" id="resetButton" type="button" title="Reset path" aria-label="Reset path">
+            <span aria-hidden="true">↺</span>
+          </button>
+          <button class="icon-button" id="copyButton" type="button" title="Copy status summary" aria-label="Copy status summary">
+            <span aria-hidden="true">⧉</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="status-strip" aria-label="Current path summary">
+        <div>
+          <span class="strip-label">Current status</span>
+          <strong id="currentStatus">Start by choosing a position type</strong>
+        </div>
+        <div>
+          <span class="strip-label">Waiting on</span>
+          <strong id="waitingOn">Classification</strong>
+        </div>
+        <div>
+          <span class="strip-label">Next gate</span>
+          <strong id="nextGate">Fixed or flexed?</strong>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="decision-panel" aria-label="Decision controls">
+          <div class="panel-heading">
+            <h2>Path Builder</h2>
+            <span id="stepCount">Step 1</span>
+          </div>
+          <div id="decisionStack" class="decision-stack"></div>
+        </aside>
+
+        <section class="path-panel" aria-label="Filtered process path">
+          <div class="panel-heading">
+            <h2>Filtered Path</h2>
+            <span id="pathMode">Choose a path</span>
+          </div>
+          <div id="pathList" class="path-list"></div>
+        </section>
+
+        <aside class="tracker-panel" aria-label="Tracker fields">
+          <div class="panel-heading">
+            <h2>Tracker</h2>
+            <span id="stagePill">Intake</span>
+          </div>
+          <dl class="tracker-fields">
+            <div>
+              <dt>Status</dt>
+              <dd id="trackerStatus">01 Intake: classify fixed or flex</dd>
+            </div>
+            <div>
+              <dt>Owner</dt>
+              <dd id="trackerOwner">Hiring manager plus Business Ops</dd>
+            </div>
+            <div>
+              <dt>Next action</dt>
+              <dd id="trackerAction">Confirm whether the position is fixed or flexed.</dd>
+            </div>
+            <div>
+              <dt>Evidence</dt>
+              <dd id="trackerEvidence">Job code or fixed-position listing checked.</dd>
+            </div>
+          </dl>
+
+          <div class="status-library">
+            <h3>Status Library</h3>
+            <div id="statusLibrary" class="status-library-list"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
